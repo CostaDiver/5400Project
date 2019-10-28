@@ -1,6 +1,13 @@
 # Arden Ott, Thomas Garza, Nate (James) Tanner
 #
 # A small function that is designed to take a IMDB data URL, download, unzip, and convert it to CSV.
+# One file contains every single item on IMDB, and basic info about it. The other file contains the user ratings for
+# all of those items. The data is quite large, combined it works out to a little over half a GB. Part of this issue
+# is that we only need movies, but the data includes short films, video games, and other non-movie datapoints. Stripping
+# those datapoints will be done in the next part of the project.
+#
+# The data seems pretty clean, so it doesn't look like we will need to do any major scrubbing aside from filtering
+# out unneeded lines.
 
 
 import os
