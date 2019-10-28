@@ -1,9 +1,13 @@
-# Arden Ott, Thomas Garza, Nate Tanner (James)
+# Arden Ott, Thomas Garza, Nate (James) Tanner
+#
+# A small function that is designed to take a IMDB data URL, download, unzip, and convert it to CSV.
+
 
 import os
 import requests
 import gzip
 import pandas as pd
+
 
 def getcsv(url, csvname):
     # Gzipped TSV file
@@ -29,6 +33,7 @@ def getcsv(url, csvname):
     # Close unneeded files
     os.remove('basics.tsv.gz')
     os.remove('f{csvname}.tsv')
+
 
 getcsv('https://datasets.imdbws.com/title.basics.tsv.gz', 'titlebasics')
 getcsv('https://datasets.imdbws.com/title.ratings.tsv.gz', 'ratings')
