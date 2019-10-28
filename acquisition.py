@@ -1,6 +1,6 @@
 # Arden Ott, Thomas Garza, Nate Tanner (James)
 
-import os
+
 import requests
 import gzip
 import pandas as pd
@@ -26,9 +26,6 @@ def getcsv(url, csvname):
     tsv_file = f'{csvname}.tsv'
     csv_table = pd.read_table(tsv_file, sep='\t', low_memory=False)
     csv_table.to_csv(f'{csvname}.csv', index=False,)
-    os.remove('basics.tsv.gz')
-    os.remove(f'{csvname}.tsv')
-
 
 getcsv('https://datasets.imdbws.com/title.basics.tsv.gz', 'titlebasics')
-getcsv('https://datasets.imdbws.com/title.ratings.tsv.gz', 'ratings')
+getcsv('https://datasets.imdbws.com/title.ratings.tsv.gz', 'rating')
