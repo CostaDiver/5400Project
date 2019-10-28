@@ -32,7 +32,7 @@ def getcsv(url, csvname):
 
     # Close unneeded files
     os.remove('basics.tsv.gz')
-    os.remove('f{csvname}.tsv')
+    os.remove(f'{csvname}.tsv')
 
 
 getcsv('https://datasets.imdbws.com/title.basics.tsv.gz', 'titlebasics')
