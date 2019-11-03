@@ -47,30 +47,31 @@ def getcsv(url, csvname):
     if csvname == 'titlebasics':
         first_line = True
         for row in csv.reader(inp):
-            while '\\N' in row:
+            while '\\N' in row:  # Replace \N values with nothing
                 location = row.index('\\N')
                 row[location] = ''
-            if first_line:
+            if first_line:  # Always write first line
                 first_line = False
                 writer.writerow(row)
-            elif row[1] == 'movie':
-
+            elif row[1] == 'movie':  # Write lines that include movie as the title type
                 writer.writerow(row)
+
     elif csvname == 'ratings':
+        # Open TitleBasics and write all Tconst values to a set
         titlebasics = open('titlebasics_edit.csv')
         tconst = set()
-
         for row in csv.reader(titlebasics):
             tconst.add(row[0])
+
         first_line = True
         for row in csv.reader(inp):
-            while '\\N' in row:
+            while '\\N' in row:  # Replace \N values with nothing
                 location = row.index('\\N')
                 row[location] = ''
-            if first_line:
+            if first_line:  # Always write first line
                 first_line = False
                 writer.writerow(row)
-            elif row[0] in tconst:
+            elif row[0] in tconst:  # Only write lines that have a matching tconst
                 writer.writerow(row)
 
     # Delete unneeded files
