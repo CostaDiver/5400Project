@@ -47,18 +47,26 @@ def getcsv(url, csvname):
     if csvname == 'titlebasics':
         first_line = True
         for row in csv.reader(inp):
+            while '\\N' in row:
+                location = row.index('\\N')
+                row[location] = ''
             if first_line:
                 first_line = False
                 writer.writerow(row)
             elif row[1] == 'movie':
+
                 writer.writerow(row)
     elif csvname == 'ratings':
         titlebasics = open('titlebasics_edit.csv')
         tconst = set()
+
         for row in csv.reader(titlebasics):
             tconst.add(row[0])
         first_line = True
         for row in csv.reader(inp):
+            while '\\N' in row:
+                location = row.index('\\N')
+                row[location] = ''
             if first_line:
                 first_line = False
                 writer.writerow(row)
