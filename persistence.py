@@ -11,27 +11,57 @@ Nate Tanner, Arden Ott, Thomas Garza
  2) See below script.
  3) Our DB will be relational, it has two tables; one for titles and information, another for ratings. They are related
     through a T_Const key value.
+    CREATE TABLE Titles(
+        tconst varchar(10) NOT NULL,
+        titleType varchar(25),
+        primaryTitle varchar(max),
+        isAdult int,
+        StartYear int,
+        endYear int,
+        runtimeMinutes int,
+        genres varchar(max),
+        PRIMARY KEY(tconst)
+    );
+
+    CREATE TABLE Ratings(
+        tconst varchar(10) NOT NULL,
+        averageRating decimal(2,1),
+        numVotes int
+        PRIMARY KEY(tconst)
+    );
 """
 
 import pyodbc
 import pandas as pd
+from urllib import parse as url
 import sqlalchemy
+from sqlalchemy.sql import sqltypes as types
 
 server = 'imdbdata.database.windows.net'
 database = 'imdbdata'
-username = 'python'
-password = 'MIS5400!'
+username = 'ntanner'
+password = 'JNTdiver1776!'
 driver = '{ODBC Driver 17 for SQL Server}'
-conn = pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
-cursor = conn.cursor()
-
-# set up connection to database (with username/pw if needed)
-# read csv data to dataframe with pandas
-# datatypes will be assumed
-# pandas is smart but you can specify datatypes with the `dtype` parameter
-#df = pd.read_csv(r'ratings.csv')
-#df1 = pd.read_csv(r'titlebasics.csv')
 
 # write to sql table... pandas will use default column names and dtypes
-#df.to_sql('table_name',engine,index=True,index_label='id')
-#df.to_sql()
+params = url.quote_plus(f'DRIVER={driver};PORT=1433;SERVER={server};DATABASE={database};UID={username};PWD={password}')
+
+# set up connection to database (with username/pw if needed)
+print('Converting CSVs to Datafiles...')
+ratings_df = pd.read_csv(r'ratings_edit.csv', quotechar='"', low_memory=False)
+titles_df = pd.read_csv(r'titlebasics_edit.csv', quotechar='"', low_memory=False)
+
+print('Connecting to DB...')
+engine = sqlalchemy.create_engine(f"mssql+pyodbc:///?odbc_connect=%s" % params)
+
+print('Uploading titles DF to DB...')
+# tconst,titleType,primaryTitle,originalTitle,isAdult,startYear,endYear,runtimeMinutes,genres
+titles_dtypes = {'tconst': types.VARCHAR(), 'titleType': types.VARCHAR(), 'primaryTitle': types.VARCHAR(),
+                 'originalTitle': types.VARCHAR(), 'isAdult': types.INT(), 'startYear': types.INT(), 'endYear': types.INT(),
+                 'runtimeMinutes': types.INT(), 'genres': types.VARCHAR()}
+titles_df.to_sql("Titles", engine, if_exists='replace', index=False, chunksize=100, method='multi', dtype=titles_dtypes)
+
+print('Uploading ratings DF to DB...')
+# tconst,averageRating,numVotes
+ratings_dtypes = {'tconst': types.VARCHAR(), 'averageRating': types.INT(), 'numVotes': types.INT()}
+ratings_df.to_sql("Ratings", engine, if_exists='replace', index=False, chunksize=200, method='multi', dtype=ratings_dtypes)
