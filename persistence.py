@@ -39,8 +39,8 @@ from sqlalchemy.sql import sqltypes as types
 
 server = 'imdbdata.database.windows.net'
 database = 'imdbdata'
-username = 'ntanner'
-password = 'JNTdiver1776!'
+username = ''
+password = ''
 driver = '{ODBC Driver 17 for SQL Server}'
 
 # write to sql table... pandas will use default column names and dtypes
