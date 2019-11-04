@@ -32,13 +32,15 @@ def getcsv(url, csvname):
     output = open(f'{csvname}.tsv', 'wb')
     output.write(s)
     output.close()
-    datatypes = dict()
+
     # Define column datatypes
+    datatypes = dict()
     if csvname == 'titlebasics':
         datatypes = {'tconst': str, 'titleType': str, 'primaryTitle': str, 'originalTitle': str, 'isAdult': str,
                      'startYear': str, 'endYear': str, 'runtimeMinutes': str, 'genres': str}
     elif csvname == 'ratings':
         datatypes = {'tconst': str, 'averageRating': float, 'numVotes': int}
+
     # Converts to CSV file
     print('Converting to CSV...\n')
     tsv_file = f'{csvname}.tsv'
