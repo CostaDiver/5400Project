@@ -39,14 +39,13 @@ from sqlalchemy.sql import sqltypes as types
 
 server = 'imdbdata.database.windows.net'
 database = 'imdbdata'
-username = ''
-password = ''
+username = 'python'
+password = 'MIS5400!'
 driver = '{ODBC Driver 17 for SQL Server}'
 
-# write to sql table... pandas will use default column names and dtypes
+# Set DB Connection string parameters
 params = url.quote_plus(f'DRIVER={driver};PORT=1433;SERVER={server};DATABASE={database};UID={username};PWD={password}')
 
-# set up connection to database (with username/pw if needed)
 print('Converting CSVs to Datafiles...')
 ratings_df = pd.read_csv(r'ratings_edit.csv', quotechar='"', low_memory=False)
 titles_df = pd.read_csv(r'titlebasics_edit.csv', quotechar='"', low_memory=False)
