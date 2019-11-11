@@ -1,20 +1,25 @@
-import flask
+from flask import Flask
 import pyodbc
 import sqlalchemy
 from sqlalchemy.sql import sqltypes as types
 
+# Connect to server
 server = 'imdbdata.database.windows.net'
 database = 'imdbdata'
 username = ''
 password = ''
 driver = '{ODBC Driver 17 for SQL Server}'
 
+# Create Flask app
+app = Flask(__name__)
+
+# Routes
 @app.route('/')
 
-@app.get('/item')
+@app.route('/item', methods='GET')
 
-@app.get('/item/<id>')
+@app.route('/item/<id>', methods='GET')
 
-@app.delete('/item/<id>')
+@app.route('/item/<id>', methods='DELETE')
 
-@app.post('/item')
+@app.route('/item', methods='POST')
