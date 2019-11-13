@@ -42,18 +42,18 @@ def welcome():
 @app.route('/item', methods=['GET'])  # Gets the top 1000 rows of our data sorted by year and rating descending
 def return_1000():
     records = cursor.execute('''
-    SELECT TOP 1000 Titles.tconst
-                    ,primaryTitle
-                    ,startYear
-                    ,averageRating
-                    ,numVotes
-    FROM Ratings
-        JOIN Titles
-        ON Ratings.tconst = Titles.tconst
-    WHERE isAdult = 0
-    ORDER BY startYear DESC
-             ,averageRating DESC
-    FOR JSON AUTO''').fetchone()
+        SELECT TOP 1000 Titles.tconst
+                        ,primaryTitle
+                        ,startYear
+                        ,averageRating
+                        ,numVotes
+        FROM Ratings
+            JOIN Titles
+                ON Ratings.tconst = Titles.tconst
+        WHERE isAdult = 0
+        ORDER BY startYear DESC
+                 ,averageRating DESC
+        FOR JSON AUTO''').fetchone()
 
     cursor.close()
     return records[0]
@@ -62,18 +62,18 @@ def return_1000():
 @app.route('/item/<id>', methods=['GET'])  # Gets a specific movie by searching the tconst
 def return_one(id):
     records = cursor.execute('''
-    SELECT Titles.tconst
-           ,primaryTitle
-           ,startYear
-           ,averageRating
-           ,numVotes
-    FROM Ratings
-        JOIN Titles
-        ON Ratings.tconst = Titles.tconst
-    WHERE isAdult = 0 AND Titles.tconst = (?)
-    ORDER BY startYear DESC
-             ,averageRating DESC
-    FOR JSON AUTO;''', id).fetchone()
+        SELECT Titles.tconst
+               ,primaryTitle
+               ,startYear
+               ,averageRating
+               ,numVotes
+        FROM Ratings
+            JOIN Titles
+                ON Ratings.tconst = Titles.tconst
+        WHERE isAdult = 0 AND Titles.tconst = (?)
+        ORDER BY startYear DESC
+                 ,averageRating DESC
+        FOR JSON AUTO;''', id).fetchone()
 
     cursor.close()
     return records[0]
