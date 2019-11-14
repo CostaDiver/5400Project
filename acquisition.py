@@ -51,7 +51,7 @@ def getcsv(url, csvname):
     # Remove all rows except for movies
     print('Deleting non-movie lines...\n')
     inp = open(f'{csvname}.csv', 'r')
-    out = open(f'{csvname}_edit.csv', 'w')
+    out = open(f'{csvname}_edit.csv', 'w', newline='')
     csvwriter = writer(out)
 
     if csvname == 'titlebasics':  # This only runs on the titlebasics dataset
@@ -68,7 +68,7 @@ def getcsv(url, csvname):
 
     elif csvname == 'ratings':  # This only runs on the ratings dataset
         # Open TitleBasics and write all Tconst values to a set so that it can be easily searched
-        titlebasics = open('titlebasics_edit.csv')
+        titlebasics = open('titlebasics_edit.csv', 'r', encoding='UTF-8', errors='ignore')
         tconst = set()
         for row in reader(titlebasics):
             tconst.add(row[0])
