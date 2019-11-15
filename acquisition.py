@@ -85,6 +85,8 @@ def getcsv(url, csvname):
                 csvwriter.writerow(row)
 
     # Delete unneeded files
+    inp.close()
+    out.close()
     remove('basics.tsv.gz')
     remove(f'{csvname}.tsv')
     remove(f'{csvname}.csv')
