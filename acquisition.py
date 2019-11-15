@@ -50,7 +50,7 @@ def getcsv(url, csvname):
 
     # Remove all rows except for movies
     print('Deleting non-movie lines...\n')
-    inp = open(f'{csvname}.csv', 'r')
+    inp = open(f'{csvname}.csv', 'r', encoding='UTF-8', errors='ignore')
     out = open(f'{csvname}_edit.csv', 'w', newline='')
     csvwriter = writer(out)
 
