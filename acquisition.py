@@ -11,13 +11,18 @@ The data seems pretty clean, so it doesn't look like we will need to do any majo
 out unneeded lines and including NULL values.
 """
 
-
 from os import remove
 from requests import get
 from gzip import GzipFile
 from pandas import read_table
 from csv import reader, writer
 
+
+def updatedata():
+    getcsv('https://datasets.imdbws.com/title.basics.tsv.gz', 'titlebasics')
+    print('Title Data File: titlebasics_edit.csv')
+    getcsv('https://datasets.imdbws.com/title.ratings.tsv.gz', 'ratings')
+    print('Ratings Data File: ratings_edit.csv')
 
 def getcsv(url, csvname):
     # Gets Gzipped TSV file
@@ -46,7 +51,7 @@ def getcsv(url, csvname):
     print('Converting to CSV...\n')
     tsv_file = f'{csvname}.tsv'
     csv_table = read_table(tsv_file, sep='\t', dtype=datatypes)
-    csv_table.to_csv(f'{csvname}.csv', index=False,)
+    csv_table.to_csv(f'{csvname}.csv', index=False, )
 
     # Remove all rows except for movies
     print('Deleting non-movie lines...\n')
@@ -92,7 +97,8 @@ def getcsv(url, csvname):
     remove(f'{csvname}.csv')
 
 
-# Basics file contains all movies and basic info like title, year released, etc.
-getcsv('https://datasets.imdbws.com/title.basics.tsv.gz', 'titlebasics')
-# Contains ratings for all movies.
-getcsv('https://datasets.imdbws.com/title.ratings.tsv.gz', 'ratings')
+if __name__ == '__main__':
+    # Basics file contains all movies and basic info like title, year released, etc.
+    getcsv('https://datasets.imdbws.com/title.basics.tsv.gz', 'titlebasics')
+    # Contains ratings for all movies.
+    getcsv('https://datasets.imdbws.com/title.ratings.tsv.gz', 'ratings')
